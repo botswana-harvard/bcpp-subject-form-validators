@@ -22,7 +22,6 @@ class TestPimaCd4FormValidator(TestCase):
         self.subject_visit = SubjectVisit.objects.create(
             subject_identifier=self.subject_identifier)
 
-    @tag('24')
     def test_location(self):
         cleaned_data = dict(
             subject_visit=self.subject_visit,
@@ -36,7 +35,6 @@ class TestPimaCd4FormValidator(TestCase):
             pass
         self.assertIn(REQUIRED_ERROR, form_validator._error_codes)
 
-    @tag('24')
     def test_datetime(self):
         cleaned_data = dict(
             subject_visit=self.subject_visit,
@@ -50,7 +48,6 @@ class TestPimaCd4FormValidator(TestCase):
             pass
         self.assertIn(REQUIRED_ERROR, form_validator._error_codes)
 
-    @tag('24')
     def test_easy_of_use(self):
         cleaned_data = dict(
             subject_visit=self.subject_visit,
@@ -64,7 +61,6 @@ class TestPimaCd4FormValidator(TestCase):
             pass
         self.assertIn(REQUIRED_ERROR, form_validator._error_codes)
 
-    @tag('24')
     def test_stability(self):
         cleaned_data = dict(
             subject_visit=self.subject_visit,
@@ -78,7 +74,6 @@ class TestPimaCd4FormValidator(TestCase):
             pass
         self.assertIn(REQUIRED_ERROR, form_validator._error_codes)
 
-    @tag('24')
     def test_required_fields(self):
         cleaned_data = dict(
             test_done=YES,
