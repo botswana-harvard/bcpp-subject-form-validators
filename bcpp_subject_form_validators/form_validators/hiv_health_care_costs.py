@@ -9,14 +9,14 @@ class HivHealthCareCostsFormValidator(FormValidator):
             NO,
             field='hiv_medical_care',
             field_required='reason_no_care')
-#         self.applicable_if(
-#             YES,
-#             field='hiv_medical_care',
-#             field_applicable='place_care_received')
-#         self.applicable_if(
-#             YES,
-#             field='hiv_medical_care',
-#             field_applicable='care_regularity')
-#         self.applicable_if(
-#             YES, field='hiv_medical_care',
-#             field_applicable='doctor_visits')
+        self.required_if(
+            YES,
+            field='hiv_medical_care',
+            field_required='place_care_received')
+        self.required_if(
+            YES,
+            field='hiv_medical_care',
+            field_required='care_regularity')
+        self.required_if(
+            YES, field='hiv_medical_care',
+            field_required='doctor_visits')
