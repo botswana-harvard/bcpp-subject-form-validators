@@ -1,0 +1,74 @@
+from django import forms
+from django.apps import apps as django_apps
+from edc_base.modelform_validators import FormValidator
+from edc_constants.constants import YES, NO
+
+
+class EducationFormValidator(FormValidator):
+
+    subject_locator_model = None
+
+    def clean(self):
+        # validating not working
+        # FIXME: Then fix it!
+        self.subject_locator_model_cls = django_apps.get_model(
+            self.subject_locator_model)
+        try:
+            subject_locator = self.subject_locator_model_cls.objects.get(
+                subject_identifier=self.cleaned_data.get(
+                    'subject_visit').subject_identifier)
+            if (subject_locator.may_call_work == YES
+                    and self.cleaned_data.get('working') == NO):
+                raise forms.ValidationError(
+                    'Participant gave permission to be contacted at WORK in '
+                    'the subject locator but now reports to be \'Not Working\'. '
+                    'Either correct this form or change '
+                    'answer in the Locator')
+        except self.subject_locator_model_cls.DoesNotExist:
+            pass
+        self.working_no()
+        # retirement
+        if (self.cleaned_data.get('reason_unemployed') == 'retired'
+                and not self.cleaned_data.get('monthly_income')):
+            raise forms.ValidationError(
+                'If participant is retired, how much of the retirement '
+                'benefit is received monthly?')
+        # student/apprentice/volunteer
+        if (self.cleaned_data.get('reason_unemployed') == 'student'
+                and not self.cleaned_data.get('monthly_income')):
+            raise forms.ValidationError(
+                'If participant is student/apprentice/volunteer, '
+                'how much payment is received monthly?')
+        # validating for those employed
+        self.working_yes()
+
+    def working_yes(self):
+        if self.cleaned_data.get('working') == YES:
+            if self.cleaned_data.get('reason_unemployed'):
+                raise forms.ValidationError(
+                    'You have provided unemployment details yet have '
+                    'indicated that participant is working')
+            if not self.cleaned_data.get('job_type'):
+                raise forms.ValidationError(
+                    'If participant is working, provide the job type')
+            if not self.cleaned_data.get('job_description'):
+                raise forms.ValidationError(
+                    'If participant is employed, what is the job description')
+            if not self.cleaned_data.get('monthly_income'):
+                raise forms.ValidationError(
+                    'If participant is employed, what is his/her monthly income?')
+
+    def working_no(self):
+        if self.cleaned_data.get('working') == NO:
+            if self.cleaned_data.get('job_type'):
+                raise forms.ValidationError(
+                    'If participant is not working, do not give job type')
+            if self.cleaned_data.get('job_description'):
+                raise forms.ValidationError(
+                    'Participant is not working, please do not provide '
+                    'any job description')
+            # give reason for unemployment
+            if not self.cleaned_data.get('reason_unemployed'):
+                raise forms.ValidationError(
+                    'If participant is not working, provide reason for '
+                    'unemployment')
