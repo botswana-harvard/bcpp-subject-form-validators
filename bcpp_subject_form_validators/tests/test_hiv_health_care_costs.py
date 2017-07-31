@@ -18,7 +18,6 @@ class TestHivHealthCareCostsFormValidator(TestCase):
         self.subject_visit = SubjectVisit.objects.create(
             subject_identifier=self.subject_identifier)
 
-    @tag('med_care')
     def test_no_med_care_none_reason_no_care(self):
         cleaned_data = dict(
             hiv_medical_care=NO, reason_no_care=None,
@@ -27,7 +26,6 @@ class TestHivHealthCareCostsFormValidator(TestCase):
             cleaned_data=cleaned_data)
         self.assertRaises(ValidationError, form_validator.validate)
 
-    @tag('med_care')
     def test_no_med_care_with_reason_no_care(self):
         cleaned_data = dict(
             hiv_medical_care=NO, reason_no_care='I am not ready to start',

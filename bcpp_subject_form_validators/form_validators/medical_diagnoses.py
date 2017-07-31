@@ -2,6 +2,7 @@ from edc_base.modelform_validators import FormValidator
 from edc_constants.constants import NONE
 
 from ..constants import CANCER, HEART_DISEASE, TUBERCULOSIS, STI
+from pprint import pprint
 
 
 class MedicalDiagnosesFormValidator(FormValidator):
