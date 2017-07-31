@@ -66,7 +66,6 @@ class TestValidators(TestCase):
                 self.assertIn(REQUIRED_ERROR, form_validator._error_codes)
                 self.assertIn(field, form_validator._errors)
 
-    @tag('2')
     def test_medical_diagnosis_not_required(self):
         opts = dict(
             cancer_record=CANCER,

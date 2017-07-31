@@ -25,6 +25,7 @@ from .form_validators import MedicalDiagnosesFormValidator
 from .form_validators import PimaCd4FormValidator
 from .form_validators import PimaVlFormValidator
 from .form_validators import ResidencyMobilityFormValidator
+from .form_validators import ResourceUtilizationFormValidator
 from .form_validators import SexualBehaviourFormValidator
 from .form_validators import SexualPartnerFormValidator
 from .form_validators import SubjectLocatorFormValidator
