@@ -11,7 +11,16 @@ class PimaVlFormValidator(FormValidator):
             field_required='location')
 
         self.required_if(
+            YES,
+            field='test_done',
+            field_required='test_datetime')
 
-            YES, field='test_done', field_required='test_datetime')
-        self.required_if(YES, field='test_done', field_required='easy_of_use')
-        self.required_if(YES, field='test_done', field_required='stability')
+        self.required_if(
+            YES,
+            field='test_done',
+            field_required='easy_of_use')
+
+        self.required_if(
+            YES,
+            field='test_done',
+            field_required='stability')

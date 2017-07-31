@@ -1,5 +1,7 @@
-from django.test import TestCase, tag
-from django.core.exceptions import ValidationError
+from django import forms
+from django.test import TestCase
+
+from edc_base.modelform_validators import REQUIRED_ERROR
 from edc_registration.models import RegisteredSubject
 from edc_constants.constants import MALE, YES
 
@@ -26,7 +28,11 @@ class TestPimaCd4FormValidator(TestCase):
             location=None)
         form_validator = PimaVlFormValidator(
             cleaned_data=cleaned_data)
-        self.assertRaises(ValidationError, form_validator.clean)
+        try:
+            form_validator.validate()
+        except forms.ValidationError:
+            pass
+        self.assertIn(REQUIRED_ERROR, form_validator._error_codes)
 
     def test_datetime(self):
         cleaned_data = dict(
@@ -35,7 +41,11 @@ class TestPimaCd4FormValidator(TestCase):
             test_datetime=None)
         form_validator = PimaVlFormValidator(
             cleaned_data=cleaned_data)
-        self.assertRaises(ValidationError, form_validator.clean)
+        try:
+            form_validator.validate()
+        except forms.ValidationError:
+            pass
+        self.assertIn(REQUIRED_ERROR, form_validator._error_codes)
 
     def test_easy_of_use(self):
         cleaned_data = dict(
@@ -44,7 +54,11 @@ class TestPimaCd4FormValidator(TestCase):
             easy_of_use=None)
         form_validator = PimaVlFormValidator(
             cleaned_data=cleaned_data)
-        self.assertRaises(ValidationError, form_validator.clean)
+        try:
+            form_validator.validate()
+        except forms.ValidationError:
+            pass
+        self.assertIn(REQUIRED_ERROR, form_validator._error_codes)
 
     def test_stability(self):
         cleaned_data = dict(
@@ -53,7 +67,11 @@ class TestPimaCd4FormValidator(TestCase):
             stability=None)
         form_validator = PimaVlFormValidator(
             cleaned_data=cleaned_data)
-        self.assertRaises(ValidationError, form_validator.clean)
+        try:
+            form_validator.validate()
+        except forms.ValidationError:
+            pass
+        self.assertIn(REQUIRED_ERROR, form_validator._error_codes)
 
     def test_required_fields(self):
         cleaned_data = dict(

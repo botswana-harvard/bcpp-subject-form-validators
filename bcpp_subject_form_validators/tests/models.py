@@ -16,7 +16,7 @@ class SubjectVisit(BaseUuidModel):
 
 class SubjectLocator(BaseUuidModel):
 
-    subject_ideMedicalDiagnosesntifier = models.CharField(max_length=25)
+    subject_identifier = models.CharField(max_length=25)
 
     may_call_work = models.CharField(max_length=25)
 
