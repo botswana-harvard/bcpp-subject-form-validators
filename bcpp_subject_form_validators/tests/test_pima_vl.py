@@ -37,6 +37,15 @@ class TestPimaCd4FormValidator(TestCase):
             cleaned_data=cleaned_data)
         self.assertRaises(ValidationError, form_validator.clean)
 
+    def test_easy_of_use(self):
+        cleaned_data = dict(
+            subject_visit=self.subject_visit,
+            test_done=YES,
+            easy_of_use=None)
+        form_validator = PimaVlFormValidator(
+            cleaned_data=cleaned_data)
+        self.assertRaises(ValidationError, form_validator.clean)
+
     def test_required_fields(self):
         cleaned_data = dict(
             test_done=YES,
