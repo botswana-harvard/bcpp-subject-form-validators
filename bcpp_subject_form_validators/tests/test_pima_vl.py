@@ -1,4 +1,4 @@
-from django.test import TestCase
+from django.test import TestCase, tag
 from django.core.exceptions import ValidationError
 from edc_registration.models import RegisteredSubject
 from edc_constants.constants import MALE, YES
@@ -42,6 +42,15 @@ class TestPimaCd4FormValidator(TestCase):
             subject_visit=self.subject_visit,
             test_done=YES,
             easy_of_use=None)
+        form_validator = PimaVlFormValidator(
+            cleaned_data=cleaned_data)
+        self.assertRaises(ValidationError, form_validator.clean)
+
+    def test_stability(self):
+        cleaned_data = dict(
+            subject_visit=self.subject_visit,
+            test_done=YES,
+            stability=None)
         form_validator = PimaVlFormValidator(
             cleaned_data=cleaned_data)
         self.assertRaises(ValidationError, form_validator.clean)
