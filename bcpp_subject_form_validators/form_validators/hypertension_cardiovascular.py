@@ -8,6 +8,7 @@ class HypertensionCardiovascularFormValidator(FormValidator):
         self.required_if(
             YES, field='tobacco',
             field_required='tobacco_current')
+
         self.required_if(
             YES, field='tobacco',
             field_required='tobacco_counselling')
