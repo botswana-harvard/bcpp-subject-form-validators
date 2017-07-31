@@ -36,19 +36,18 @@ class TestHeartAttackFormValidator(TestCase):
         self.assertIn(REQUIRED_ERROR, form_validator._error_codes)
         self.assertIn('problems_engagement_other', form_validator._errors)
 
-#     @tag('eng')
-#     def test_dx_heart_attack_other(self):
-#         ListModel.objects.all().delete()
-#         ListModel.objects.create(short_name='dx1', name='dx1')
-#         ListModel.objects.create(short_name=OTHER, name=OTHER)
-#         cleaned_data = dict(
-#             problems_engagement=ListModel.objects.all(),
-#             problems_engagement_other='some description...',
-#             subject_visit=self.subject_visit)
-#         form_validator = CommunityEngagementFormValidator(
-#             cleaned_data=cleaned_data)
-#         try:
-#             form_validator.validate()
-#         except forms.ValidationError:
-#             pass
-#         self.assertNotIn('problems_engagement_other', form_validator._errors)
+    def test_problems_engagement_other(self):
+        ListModel.objects.all().delete()
+        ListModel.objects.create(short_name='dx1', name='dx1')
+        ListModel.objects.create(short_name=OTHER, name=OTHER)
+        cleaned_data = dict(
+            problems_engagement=ListModel.objects.all(),
+            problems_engagement_other='problems',
+            subject_visit=self.subject_visit)
+        form_validator = CommunityEngagementFormValidator(
+            cleaned_data=cleaned_data)
+        try:
+            form_validator.validate()
+        except forms.ValidationError:
+            pass
+        self.assertNotIn('problems_engagement_other', form_validator._errors)
