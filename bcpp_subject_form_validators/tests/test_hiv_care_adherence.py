@@ -1,7 +1,7 @@
 from arrow.arrow import Arrow
 from dateutil.relativedelta import relativedelta
 from django import forms
-from django.test import TestCase, tag
+from django.test import TestCase
 
 from edc_base.modelform_validators import REQUIRED_ERROR, NOT_REQUIRED_ERROR
 from edc_constants.constants import MALE, YES, NO, NOT_APPLICABLE, OTHER, DWTA
@@ -290,6 +290,7 @@ class TestHivCareAdherence(TestCase):
                         Arrow.utcnow() - relativedelta(years=1)).datetime,
                     on_arv=YES,
                     arvs=arvs)
+                cleaned_data.update()
                 form_validator = HivCareAdherenceFormValidator(
                     cleaned_data=cleaned_data)
                 try:

@@ -1,8 +1,11 @@
+from arrow.arrow import Arrow
+from dateutil.relativedelta import relativedelta
 from django import forms
 from django.test import TestCase, tag
 
+from bcpp_subject_form_validators.tests.models import ListModel
 from edc_base.modelform_validators import REQUIRED_ERROR
-from edc_constants.constants import MALE, YES
+from edc_constants.constants import MALE, YES, OTHER, NOT_APPLICABLE
 from edc_registration.models import RegisteredSubject
 
 from ..form_validators import HypertensionCardiovascularFormValidator
@@ -32,13 +35,69 @@ class TestHypertensionCardiovascularFormValidator(TestCase):
         self.assertIn(REQUIRED_ERROR, form_validator._error_codes)
         self.assertIn('tobacco_current', form_validator._errors)
 
-    def test_no_med_care_with_tobacco_current(self):
+    def test_yes_hypertension_diagnosis_with_medication_taken(self):
+        for medication_taken in [None, ListModel.objects.all()]:
+            with self.subTest(medication_taken=medication_taken):
+                cleaned_data = dict(
+                    subject_visit=self.subject_visit,
+                    hypertension_diagnosis=YES,
+                    health_care_facility='government clinic',
+                    medication_taken=medication_taken
+                )
+                form_validator = HypertensionCardiovascularFormValidator(
+                    cleaned_data=cleaned_data)
+                try:
+                    form_validator.validate()
+                except forms.ValidationError:
+                    pass
+                self.assertIn('medication_taken', form_validator._errors)
+
+    def test_yes_hypertension_diagnosis_with_medication_given(self):
+        for medication_given in [None, ListModel.objects.all()]:
+            with self.subTest(medication_given=medication_given):
+                cleaned_data = dict(
+                    subject_visit=self.subject_visit,
+                    hypertension_diagnosis=YES,
+                    health_care_facility='government clinic',
+                    medication_given=medication_given
+                )
+                form_validator = HypertensionCardiovascularFormValidator(
+                    cleaned_data=cleaned_data)
+                try:
+                    form_validator.validate()
+                except forms.ValidationError:
+                    pass
+                self.assertIn('medication_taken', form_validator._errors)
+
+    def test_medication_taken_other_require_medication_taken_other(self):
+        ListModel.objects.create(
+            short_name=OTHER, name=OTHER)
         cleaned_data = dict(
-            tobacco=YES, tobacco_current=YES, tobacco_counselling=YES,
-            subject_visit=self.subject_visit)
+            subject_visit=self.subject_visit,
+            hypertension_diagnosis=YES,
+            health_care_facility='government clinic',
+            medication_taken=ListModel.objects.all())
         form_validator = HypertensionCardiovascularFormValidator(
             cleaned_data=cleaned_data)
         try:
             form_validator.validate()
         except forms.ValidationError:
             pass
+        self.assertIn('medication_taken_other', form_validator._errors)
+
+    def test_medication_given_other_require_medication_given_other(self):
+        ListModel.objects.create(
+            short_name=OTHER, name=OTHER)
+        cleaned_data = dict(
+            subject_visit=self.subject_visit,
+            hypertension_diagnosis=YES,
+            health_care_facility='government clinic',
+            medication_given=ListModel.objects.all(),
+            medication_taken=ListModel.objects.all())
+        form_validator = HypertensionCardiovascularFormValidator(
+            cleaned_data=cleaned_data)
+        try:
+            form_validator.validate()
+        except forms.ValidationError:
+            pass
+        self.assertIn('medication_taken_other', form_validator._errors)
