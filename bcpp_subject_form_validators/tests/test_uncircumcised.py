@@ -33,8 +33,6 @@ class TestUncircumcisedFormValidator(TestCase):
 
     @tag('facility')
     def test_not_done_right_facility(self):
-        CircumcisionBenefits.objects.create(
-            name='reduce_hiv_infection')
         cleaned_data = dict(
             service_facilities=YES, aware_free=None,
             subject_visit=self.subject_visit)
@@ -61,8 +59,6 @@ class TestUncircumcisedFormValidator(TestCase):
 
     @tag('circumcized')
     def test_circumcised_1(self):
-        CircumcisionBenefits.objects.create(
-            name='reduce_hiv_infection')
         cleaned_data = dict(
             circumcised=YES,
             health_benefits_smc=[],
