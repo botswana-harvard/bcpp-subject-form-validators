@@ -24,6 +24,7 @@ from .medical_diagnoses import MedicalDiagnosesFormValidator
 from .pima_cd4 import PimaCd4FormValidator
 from .pima_vl import PimaVlFormValidator
 
+from .reproductive_health import ReproductiveHealthFormValidator
 from .resource_utilization import ResourceUtilizationFormValidator
 from .residency_mobility import ResidencyMobilityFormValidator
 from .sexual_behaviour import SexualBehaviourFormValidator
