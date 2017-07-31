@@ -1,6 +1,5 @@
 from django import forms
-from django.test import TestCase, tag
-from django.core.exceptions import ValidationError
+from django.test import TestCase
 
 from edc_base.modelform_validators import REQUIRED_ERROR
 from edc_registration.models import RegisteredSubject

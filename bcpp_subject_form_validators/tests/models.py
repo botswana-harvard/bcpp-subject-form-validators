@@ -27,7 +27,10 @@ class Diagnoses(ListModelMixin, BaseUuidModel):
 
 
 class ListModel(ListModelMixin, BaseUuidModel):
+    pass
 
+
+class CircumcisionBenefits(ListModelMixin, BaseUuidModel):
     pass
 
 
