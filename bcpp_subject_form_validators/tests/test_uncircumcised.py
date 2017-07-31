@@ -1,17 +1,14 @@
 from django import forms
-from django.core.exceptions import ValidationError
 from django.test import TestCase, tag
 
 from edc_base.modelform_validators import REQUIRED_ERROR
-from edc_constants.constants import NOT_APPLICABLE, MALE, YES, NO
+from edc_constants.constants import MALE, YES
 from edc_registration.models import RegisteredSubject
 
 from ..form_validators import UncircumcisedFormValidator
-from .models import SubjectVisit
-from ..tests.models import CircumcisionBenefits
+from .models import SubjectVisit, ListModel
 
 
-@tag('UncircumcisedForm')
 class TestUncircumcisedFormValidator(TestCase):
 
     def setUp(self):
@@ -22,7 +19,6 @@ class TestUncircumcisedFormValidator(TestCase):
         self.subject_visit = SubjectVisit.objects.create(
             subject_identifier=self.subject_identifier)
 
-    @tag('facility')
     def test_done_right_facility(self):
         cleaned_data = dict(
             service_facilities=YES, aware_free=YES,
@@ -31,7 +27,6 @@ class TestUncircumcisedFormValidator(TestCase):
             cleaned_data=cleaned_data)
         form_validator.validate()
 
-    @tag('facility')
     def test_not_done_right_facility(self):
         cleaned_data = dict(
             service_facilities=YES, aware_free=None,
@@ -45,19 +40,17 @@ class TestUncircumcisedFormValidator(TestCase):
         self.assertIn(REQUIRED_ERROR, form_validator._error_codes)
         self.assertIn('aware_free', form_validator._errors)
 
-    @tag('circumcized')
     def test_circumcised(self):
-        CircumcisionBenefits.objects.create(
-            name='reduce_hiv_infection')
+        ListModel.objects.create(
+            name='reduce_hiv_infection', short_name='reduce_hiv_infection')
         cleaned_data = dict(
             circumcised=YES,
-            health_benefits_smc=CircumcisionBenefits.objects.all(),
+            health_benefits_smc=ListModel.objects.all(),
             subject_visit=self.subject_visit)
         form_validator = UncircumcisedFormValidator(
             cleaned_data=cleaned_data)
         form_validator.validate()
 
-    @tag('circumcized')
     def test_circumcised_1(self):
         cleaned_data = dict(
             circumcised=YES,

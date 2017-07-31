@@ -21,16 +21,7 @@ class SubjectLocator(BaseUuidModel):
     may_call_work = models.CharField(max_length=25)
 
 
-class Diagnoses(ListModelMixin, BaseUuidModel):
-
-    pass
-
-
 class ListModel(ListModelMixin, BaseUuidModel):
-    pass
-
-
-class CircumcisionBenefits(ListModelMixin, BaseUuidModel):
     pass
 
 
@@ -45,13 +36,3 @@ class CrfModelMixin(models.Model):
     @property
     def visit_code(self):
         return self.subject_visit.visit_code
-
-
-class MedicalDiagnoses(CrfModelMixin, BaseUuidModel):
-
-    diagnoses = models.ManyToManyField(
-        Diagnoses,
-        verbose_name=(
-            'Do you recall or is there a record of having any of the '
-            'following serious illnesses?'),
-    )

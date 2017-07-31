@@ -6,7 +6,7 @@ from edc_constants.constants import MALE, OTHER
 from edc_registration.models import RegisteredSubject
 
 from ..form_validators import HeartAttackFormValidator
-from .models import SubjectVisit, Diagnoses
+from .models import SubjectVisit, ListModel
 
 
 class TestHeartAttackFormValidator(TestCase):
@@ -20,11 +20,11 @@ class TestHeartAttackFormValidator(TestCase):
             subject_identifier=self.subject_identifier)
 
     def test_dx_heart_attack_other_required(self):
-        Diagnoses.objects.all().delete()
-        Diagnoses.objects.create(short_name='dx1', name='dx1')
-        Diagnoses.objects.create(short_name=OTHER, name=OTHER)
+        ListModel.objects.all().delete()
+        ListModel.objects.create(short_name='dx1', name='dx1')
+        ListModel.objects.create(short_name=OTHER, name=OTHER)
         cleaned_data = dict(
-            dx_heart_attack=Diagnoses.objects.all(),
+            dx_heart_attack=ListModel.objects.all(),
             dx_heart_attack_other=None,
             subject_visit=self.subject_visit)
         form_validator = HeartAttackFormValidator(
@@ -37,11 +37,11 @@ class TestHeartAttackFormValidator(TestCase):
         self.assertIn('dx_heart_attack_other', form_validator._errors)
 
     def test_dx_heart_attack_other(self):
-        Diagnoses.objects.all().delete()
-        Diagnoses.objects.create(short_name='dx1', name='dx1')
-        Diagnoses.objects.create(short_name=OTHER, name=OTHER)
+        ListModel.objects.all().delete()
+        ListModel.objects.create(short_name='dx1', name='dx1')
+        ListModel.objects.create(short_name=OTHER, name=OTHER)
         cleaned_data = dict(
-            dx_heart_attack=Diagnoses.objects.all(),
+            dx_heart_attack=ListModel.objects.all(),
             dx_heart_attack_other='some description...',
             subject_visit=self.subject_visit)
         form_validator = HeartAttackFormValidator(

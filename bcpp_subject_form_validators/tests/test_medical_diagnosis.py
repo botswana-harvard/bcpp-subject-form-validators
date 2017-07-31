@@ -7,7 +7,7 @@ from edc_registration.models import RegisteredSubject
 
 from ..constants import HEART_DISEASE, CANCER, TUBERCULOSIS, STI
 from ..form_validators import MedicalDiagnosesFormValidator
-from .models import SubjectVisit, Diagnoses
+from .models import SubjectVisit, ListModel
 
 
 class TestValidators(TestCase):
@@ -29,11 +29,11 @@ class TestValidators(TestCase):
         form_validator.validate()
 
     def test_medical_diagnosis_invalid_combination(self):
-        Diagnoses.objects.create(short_name='dx1', name='dx1')
-        Diagnoses.objects.create(short_name=NONE, name=NONE)
+        ListModel.objects.create(short_name='dx1', name='dx1')
+        ListModel.objects.create(short_name=NONE, name=NONE)
         cleaned_data = dict(
             subject_visit=self.subject_visit,
-            diagnoses=Diagnoses.objects.all())
+            diagnoses=ListModel.objects.all())
         form_validator = MedicalDiagnosesFormValidator(
             cleaned_data=cleaned_data)
         try:
@@ -50,12 +50,12 @@ class TestValidators(TestCase):
             sti_record=STI)
         for field, option in opts.items():
             with self.subTest(field=field, option=option):
-                Diagnoses.objects.all().delete()
-                Diagnoses.objects.create(short_name='dx1', name='dx1')
-                Diagnoses.objects.create(short_name=option, name=option)
+                ListModel.objects.all().delete()
+                ListModel.objects.create(short_name='dx1', name='dx1')
+                ListModel.objects.create(short_name=option, name=option)
                 cleaned_data = dict(
                     subject_visit=self.subject_visit,
-                    diagnoses=Diagnoses.objects.all(),
+                    diagnoses=ListModel.objects.all(),
                     **{field: None})
                 form_validator = MedicalDiagnosesFormValidator(
                     cleaned_data=cleaned_data)
@@ -75,12 +75,12 @@ class TestValidators(TestCase):
             sti_record=STI)
         for field, option in opts.items():
             with self.subTest(field=field, option=option):
-                Diagnoses.objects.all().delete()
-                Diagnoses.objects.create(short_name='dx1', name='dx1')
-                Diagnoses.objects.create(short_name=option, name=option)
+                ListModel.objects.all().delete()
+                ListModel.objects.create(short_name='dx1', name='dx1')
+                ListModel.objects.create(short_name=option, name=option)
                 cleaned_data = dict(
                     subject_visit=self.subject_visit,
-                    diagnoses=Diagnoses.objects.exclude(name=option),
+                    diagnoses=ListModel.objects.exclude(name=option),
                     **{field: YES})
                 form_validator = MedicalDiagnosesFormValidator(
                     cleaned_data=cleaned_data)
