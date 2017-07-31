@@ -48,7 +48,7 @@ class SexualBehaviourFormValidator(FormValidator):
         self.required_if(
             YES, DWTA,
             field='ever_sex',
-            field_applicable='first_sex_partner_age')
+            field_required='first_sex_partner_age')
 
         self.validate_other_specify(
             'first_sex_partner_age', other_stored_value='gte_19')
