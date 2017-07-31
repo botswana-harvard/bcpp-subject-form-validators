@@ -155,5 +155,4 @@ class HivCareAdherenceFormValidator(FormValidator):
             field_required='clinic_receiving_from')
         self.required_if_true(
             self.cleaned_data.get('clinic_receiving_from'),
-            field='clinic_receiving_from',
             field_required='next_appointment_date')

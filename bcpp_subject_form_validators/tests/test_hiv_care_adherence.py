@@ -11,7 +11,6 @@ from ..form_validators import HivCareAdherenceFormValidator
 from .models import SubjectVisit, ListModel
 
 
-@tag('1')
 class TestHivCareAdherence(TestCase):
 
     def setUp(self):
@@ -344,7 +343,6 @@ class TestHivCareAdherence(TestCase):
                     pass
                 self.assertIn('is_first_regimen', form_validator._errors)
 
-    @tag('2')
     def test_not_on_arv_prev_is_not_required(self):
         ListModel.objects.create(short_name='arv1', name='arv1')
         for field in ['prev_switch_date', 'prev_arvs', 'prev_arv_other']:
