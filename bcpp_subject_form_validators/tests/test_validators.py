@@ -1,4 +1,4 @@
-from django.test import TestCase, tag
+from django.test import TestCase
 
 from edc_constants.constants import NOT_APPLICABLE, MALE
 from edc_registration.models import RegisteredSubject
@@ -76,22 +76,11 @@ class TestValidators(TestCase):
             cleaned_data=cleaned_data)
         form_validator.validate()
 
-    @tag('demographics')
     def test_demographics_married(self):
         cleaned_data = dict(
             subject_visit=self.subject_visit,
             marital_status=MARRIED,
             husband_wives=1)
-        form_validator = DemographicsFormValidator(
-            cleaned_data=cleaned_data)
-        form_validator.validate()
-
-    @tag('demographics')
-    def test_demographics_married2(self):
-        cleaned_data = dict(
-            subject_visit=self.subject_visit,
-            marital_status=MARRIED,
-            husband_wives=None)
         form_validator = DemographicsFormValidator(
             cleaned_data=cleaned_data)
         form_validator.validate()
