@@ -10,7 +10,6 @@ from ..form_validators import MedicalDiagnosesFormValidator
 from .models import SubjectVisit, Diagnoses
 
 
-@tag('1')
 class TestValidators(TestCase):
 
     def setUp(self):

@@ -2,6 +2,7 @@ from django import forms
 
 from edc_constants.constants import YES, NO, OTHER, NOT_APPLICABLE, DWTA
 from edc_base.modelform_validators.form_validator import FormValidator
+from pprint import pprint
 
 
 class HivCareAdherenceFormValidator(FormValidator):
@@ -22,6 +23,7 @@ class HivCareAdherenceFormValidator(FormValidator):
         self.applicable_if_true(
             self.cleaned_data.get('arv_stop_date'), field_applicable='arv_stop')
         self.validate_art_regimen()
+        self.validate_is_first_regimen()
         self.validate_prev_art_regimen()
         self.validate_adherence()
         self.validate_hospitalization_part1()
@@ -42,37 +44,30 @@ class HivCareAdherenceFormValidator(FormValidator):
 
         if (self.cleaned_data.get('first_positive') and self.cleaned_data.get('first_arv')
                 and self.cleaned_data.get('first_positive') > self.cleaned_data.get('first_arv')):
+            dt = self.cleaned_data.get('first_positive').strftime('%Y-%m-%d')
             raise forms.ValidationError({
-                'first_arv':
-                'Cannot be before {}.'.format(
-                    self.cleaned_data.get('first_positive').strftime('%Y-%m-%d'))})
+                'first_arv': f'Cannot be before {dt}.'})
 
         self.required_if(
             NO, field='on_arv', field_required='arv_stop_date')
 
         if (self.cleaned_data.get('arv_stop_date') and self.cleaned_data.get('first_arv')
                 and self.cleaned_data.get('arv_stop_date') <= self.cleaned_data.get('first_arv')):
+            dt = self.cleaned_data.get('first_arv').strftime('%Y-%m-%d')
             raise forms.ValidationError({
-                'arv_stop_date':
-                'Cannot be before {}'.format(
-                    self.cleaned_data.get('first_arv').strftime('%Y-%m-%d'))})
+                'arv_stop_date': f'Cannot be before {dt}'})
         self.validate_other_specify('arv_stop')
 
     def validate_art_regimen(self, m2m_field=None, field_other=None):
         m2m_field = m2m_field or 'arvs'
         field_other = field_other or 'arv_other'
-        if (self.cleaned_data.get('on_arv') == [NO, DWTA]
+        if (self.cleaned_data.get('on_arv') in [NO, DWTA]
                 and self.cleaned_data.get(m2m_field)):
             raise forms.ValidationError({
-                m2m_field:
-                'This field is not required.'})
+                m2m_field: 'This field is not required.'})
         elif self.cleaned_data.get('on_arv') == YES:
             if self.cleaned_data.get(m2m_field):
-                if (self.cleaned_data.get(m2m_field).count() == 0):
-                    raise forms.ValidationError({
-                        m2m_field:
-                        'This field is required. Please make a selection.'})
-                elif (self.cleaned_data.get(m2m_field).count() > 0):
+                if (self.cleaned_data.get(m2m_field).count() > 0):
                     for obj in self.cleaned_data.get(m2m_field):
                         if obj.short_name == NOT_APPLICABLE:
                             raise forms.ValidationError({
@@ -80,15 +75,19 @@ class HivCareAdherenceFormValidator(FormValidator):
                                 'Invalid selection. Cannot be not applicable.'})
                         elif obj.short_name == OTHER and not self.cleaned_data.get(field_other):
                             raise forms.ValidationError({
-                                field_other:
-                                'This field is required.'})
+                                field_other: 'This field is required.'})
             elif not self.cleaned_data.get(m2m_field):
                 raise forms.ValidationError({
-                    m2m_field:
-                    'This field is required. Please make a selection.'})
+                    m2m_field: 'This field is required. Please make a selection.'})
+
+    def validate_is_first_regimen(self):
+        self.required_if(
+            YES, field='on_arv', field_required='is_first_regimen')
+        if (self.cleaned_data.get('on_arv') in [NO, DWTA]
+                and not self.cleaned_data.get('is_first_regimen')):
+            self.prev_art_regimen_not_required()
 
     def validate_prev_art_regimen(self):
-        self.validate_is_first_regimen()
         if self.cleaned_data.get('is_first_regimen') == NO:
             if not self.cleaned_data.get('prev_switch_date'):
                 raise forms.ValidationError({
@@ -103,13 +102,6 @@ class HivCareAdherenceFormValidator(FormValidator):
             else:
                 self.validate_art_regimen('prev_arvs', 'prev_arv_other')
         elif self.cleaned_data.get('is_first_regimen') == YES:
-            self.prev_art_regimen_not_required()
-
-    def validate_is_first_regimen(self):
-        self.required_if(
-            YES, field='on_arv', field_required='is_first_regimen')
-        if (self.cleaned_data.get('on_arv') == [NO, DWTA]
-                and not self.cleaned_data.get('is_first_regimen')):
             self.prev_art_regimen_not_required()
 
     def prev_art_regimen_not_required(self):
@@ -127,132 +119,41 @@ class HivCareAdherenceFormValidator(FormValidator):
                 'This field is not required.'})
 
     def validate_adherence(self):
-        if self.cleaned_data.get('on_arv') == YES:
-            if self.cleaned_data.get('adherence_4_day') == NOT_APPLICABLE:
-                raise forms.ValidationError({
-                    'adherence_4_day':
-                    'This field is applicable'})
-            elif self.cleaned_data.get('adherence_4_wk') == NOT_APPLICABLE:
-                raise forms.ValidationError({
-                    'adherence_4_wk':
-                    'This field is applicable'})
-        elif self.cleaned_data.get('on_arv') in [NO, DWTA]:
-            if self.cleaned_data.get('adherence_4_day') != NOT_APPLICABLE:
-                raise forms.ValidationError({
-                    'adherence_4_day':
-                    'This field is not applicable'})
-            elif self.cleaned_data.get('adherence_4_wk') != NOT_APPLICABLE:
-                raise forms.ValidationError({
-                    'adherence_4_wk':
-                    'This field is not applicable'})
+        self.applicable_if(
+            YES, field='on_arv', field_applicable='adherence_4_day')
+        self.not_applicable_if(
+            NO, DWTA, field='on_arv', field_applicable='adherence_4_day')
 
     def validate_hospitalization_part1(self):
-        if self.cleaned_data.get('hospitalized_art_start') == YES:
-            if self.cleaned_data.get('ever_taken_arv') in [NO, DWTA]:
-                raise forms.ValidationError({
-                    'hospitalized_art_start':
-                    'This field is not applicable'})
-            elif not self.cleaned_data.get('hospitalized_art_start_duration'):
-                raise forms.ValidationError({
-                    'hospitalized_art_start_duration':
-                    'This field is required'})
-            elif self.cleaned_data.get('hospitalized_art_start_reason') == NOT_APPLICABLE:
-                raise forms.ValidationError({
-                    'hospitalized_art_start_reason':
-                    'This field is applicable'})
-        elif self.cleaned_data.get('hospitalized_art_start') == NO:
-            if self.cleaned_data.get('ever_taken_arv') in [NO, DWTA]:
-                raise forms.ValidationError({
-                    'hospitalized_art_start':
-                    'This field is not applicable'})
-            elif self.cleaned_data.get('hospitalized_art_start_duration'):
-                raise forms.ValidationError({
-                    'hospitalized_art_start_duration':
-                    'This field is not required'})
-            elif self.cleaned_data.get('hospitalized_art_start_reason') != NOT_APPLICABLE:
-                raise forms.ValidationError({
-                    'hospitalized_art_start_reason':
-                    'This field is not applicable'})
-        elif self.cleaned_data.get('hospitalized_art_start') == NOT_APPLICABLE:
-            if self.cleaned_data.get('ever_taken_arv') == YES:
-                raise forms.ValidationError({
-                    'hospitalized_art_start':
-                    'This field is applicable'})
-            elif self.cleaned_data.get('hospitalized_art_start_duration'):
-                raise forms.ValidationError({
-                    'hospitalized_art_start_duration':
-                    'This field is not required'})
-            elif self.cleaned_data.get('hospitalized_art_start_reason') != NOT_APPLICABLE:
-                raise forms.ValidationError({
-                    'hospitalized_art_start_reason':
-                    'This field is not applicable'})
+        self.applicable_if(
+            YES, field='ever_taken_arv', field_applicable='hospitalized_art_start')
+        self.required_if(
+            YES, field='hospitalized_art_start', field_required='hospitalized_art_start_duration')
+        self.applicable_if(
+            YES, field='hospitalized_art_start', field_applicable='hospitalized_art_start_reason')
 
     def validate_hospitalization_part2(self):
         if self.cleaned_data.get('hospitalized_art_start_reason'):
             if self.validate_other_specify('hospitalized_art_start_reason'):
                 pass
-            elif (self.cleaned_data.get('hospitalized_art_start_reason') == 'chronic_disease'
-                    and not self.cleaned_data.get('chronic_disease')):
-                raise forms.ValidationError({
-                    'chronic_disease':
-                    'This field is required'})
-            elif (self.cleaned_data.get('hospitalized_art_start_reason') != 'chronic_disease'
-                  and self.cleaned_data.get('chronic_disease')):
-                raise forms.ValidationError({
-                    'chronic_disease':
-                    'This field is not required'})
-            elif (self.cleaned_data.get('hospitalized_art_start_reason') == 'medication_toxicity'
-                  and not self.cleaned_data.get('medication_toxicity')):
-                raise forms.ValidationError({
-                    'medication_toxicity':
-                    'This field is required'})
-            elif (self.cleaned_data.get('hospitalized_art_start_reason') != 'medication_toxicity'
-                  and self.cleaned_data.get('medication_toxicity')):
-                raise forms.ValidationError({
-                    'medication_toxicity':
-                    'This field is not required'})
-        elif not self.cleaned_data.get('hospitalized_art_start_reason'):
-            if self.cleaned_data.get('chronic_disease'):
-                raise forms.ValidationError({
-                    'chronic_disease':
-                    'This field is not required'})
-            elif self.cleaned_data.get('medication_toxicity'):
-                raise forms.ValidationError({
-                    'medication_toxicity':
-                    'This field is not required'})
+            self.required_if(
+                'chronic_disease', field='hospitalized_art_start_reason',
+                field_required='chronic_disease')
+            self.required_if(
+                'medication_toxicity', field='hospitalized_art_start_reason',
+                field_required='medication_toxicity')
 
     def validate_hospitalization_part3(self):
-        if self.cleaned_data.get('hospitalized_art_start') == YES:
-            if not self.cleaned_data.get('hospitalized_evidence'):
-                raise forms.ValidationError({
-                    'hospitalized_evidence':
-                    'This field is required'})
-            elif self.validate_other_specify('hospitalized_evidence'):
-                pass
-        elif self.cleaned_data.get('hospitalized_art_start') == NO:
-            if self.cleaned_data.get('hospitalized_evidence'):
-                raise forms.ValidationError({
-                    'hospitalized_evidence':
-                    'This field is not required'})
+        self.required_if(
+            YES, field='hospitalized_art_start',
+            field_required='hospitalized_evidence')
+        self.validate_other_specify('hospitalized_evidence')
 
     def validate_clinic(self):
-        if (self.cleaned_data.get('on_arv') == YES
-                and not self.cleaned_data.get('clinic_receiving_from')):
-            raise forms.ValidationError({
-                'clinic_receiving_from':
-                'This field is required'})
-        elif (self.cleaned_data.get('on_arv') == [NO, DWTA]
-              and self.cleaned_data.get('clinic_receiving_from')):
-            raise forms.ValidationError({
-                'clinic_receiving_from':
-                'This field is not required'})
-        elif (self.cleaned_data.get('clinic_receiving_from')
-              and not self.cleaned_data.get('next_appointment_date')):
-            raise forms.ValidationError({
-                'next_appointment_date':
-                'This field is required'})
-        elif (not self.cleaned_data.get('clinic_receiving_from')
-              and self.cleaned_data.get('next_appointment_date')):
-            raise forms.ValidationError({
-                'next_appointment_date':
-                'This field is not required'})
+        self.required_if(
+            YES, field='on_arv',
+            field_required='clinic_receiving_from')
+        self.required_if_true(
+            self.cleaned_data.get('clinic_receiving_from'),
+            field='clinic_receiving_from',
+            field_required='next_appointment_date')

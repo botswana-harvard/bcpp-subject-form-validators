@@ -26,6 +26,11 @@ class Diagnoses(ListModelMixin, BaseUuidModel):
     pass
 
 
+class ListModel(ListModelMixin, BaseUuidModel):
+
+    pass
+
+
 class CrfModelMixin(models.Model):
 
     subject_visit = models.ForeignKey(SubjectVisit)
