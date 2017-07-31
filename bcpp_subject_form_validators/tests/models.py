@@ -26,6 +26,10 @@ class Diagnoses(ListModelMixin, BaseUuidModel):
     pass
 
 
+class CircumcisionBenefits(ListModelMixin, BaseUuidModel):
+    pass
+
+
 class CrfModelMixin(models.Model):
 
     subject_visit = models.ForeignKey(SubjectVisit)

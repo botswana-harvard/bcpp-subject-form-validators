@@ -11,5 +11,5 @@ class UncircumcisedFormValidator(FormValidator):
             DWTA, m2m_field='health_benefits_smc')
         self.validate_other_specify('reason_circ')
 
-        self.applicable_if(
-            YES, field='service_facilities', field_applicable='aware_free')
+        self.required_if(
+            YES, field='service_facilities', field_required='aware_free')
