@@ -5,10 +5,10 @@ from edc_constants.constants import YES
 class PimaVlFormValidator(FormValidator):
 
     def clean(self):
-        self.applicable_if(
+        self.required_if(
             YES,
             field='test_done',
-            field_applicable='location')
+            field_required='location')
 
         self.required_if(
 
