@@ -1,4 +1,4 @@
-from django.test import TestCase
+from django.test import TestCase, tag
 from django.core.exceptions import ValidationError
 from edc_registration.models import RegisteredSubject
 from edc_constants.constants import MALE, YES
@@ -19,7 +19,7 @@ class TestPimaCd4FormValidator(TestCase):
         self.subject_visit = SubjectVisit.objects.create(
             subject_identifier=self.subject_identifier)
 
-    def test_location1(self):
+    def test_location(self):
         cleaned_data = dict(
             subject_visit=self.subject_visit,
             test_done=YES,
@@ -28,7 +28,34 @@ class TestPimaCd4FormValidator(TestCase):
             cleaned_data=cleaned_data)
         self.assertRaises(ValidationError, form_validator.clean)
 
-    def test_location2(self):
+    def test_datetime(self):
+        cleaned_data = dict(
+            subject_visit=self.subject_visit,
+            test_done=YES,
+            test_datetime=None)
+        form_validator = PimaVlFormValidator(
+            cleaned_data=cleaned_data)
+        self.assertRaises(ValidationError, form_validator.clean)
+
+    def test_easy_of_use(self):
+        cleaned_data = dict(
+            subject_visit=self.subject_visit,
+            test_done=YES,
+            easy_of_use=None)
+        form_validator = PimaVlFormValidator(
+            cleaned_data=cleaned_data)
+        self.assertRaises(ValidationError, form_validator.clean)
+
+    def test_stability(self):
+        cleaned_data = dict(
+            subject_visit=self.subject_visit,
+            test_done=YES,
+            stability=None)
+        form_validator = PimaVlFormValidator(
+            cleaned_data=cleaned_data)
+        self.assertRaises(ValidationError, form_validator.clean)
+
+    def test_required_fields(self):
         cleaned_data = dict(
             test_done=YES,
             location='Mmathethe',
