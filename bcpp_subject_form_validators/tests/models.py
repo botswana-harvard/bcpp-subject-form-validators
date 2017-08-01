@@ -77,6 +77,11 @@ class HivCareAdherence(CrfModelMixin, BaseUuidModel):
     pass
 
 
+class HivTestingHistory(CrfModelMixin, BaseUuidModel):
+
+    pass
+
+
 class HicEnrollment(CrfModelMixin, BaseUuidModel):
 
     hiv_result = models.CharField(max_length=25)
