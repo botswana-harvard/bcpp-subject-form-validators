@@ -45,8 +45,14 @@ INSTALLED_APPS = [
     'edc_timepoint.apps.AppConfig',
     'edc_protocol.apps.AppConfig',
     'edc_identifier.apps.AppConfig',
+    'edc_reference.apps.AppConfig',
     'edc_registration.apps.AppConfig',
     'edc_device.apps.AppConfig',
+    'edc_map.apps.AppConfig',
+    'edc_visit_schedule.apps.AppConfig',
+    'bcpp_community.apps.AppConfig',
+    'bcpp_visit_schedule.apps.AppConfig',
+    'bcpp_reference.apps.AppConfig',
     'bcpp_subject_form_validators.apps.AppConfig',
 ]
 
@@ -129,11 +135,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 GIT_DIR = BASE_DIR
 KEY_PATH = os.path.join(BASE_DIR, 'crypto_fields')
 DEVICE_ID = '99'
 DEVICE_ROLE = CENTRAL_SERVER
-
+CURRENT_MAP_AREA = 'test_community'
 if 'test' in sys.argv:
 
     class DisableMigrations:

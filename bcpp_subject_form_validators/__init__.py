@@ -10,6 +10,7 @@ from .form_validators import DemographicsFormValidator
 from .form_validators import EducationFormValidator
 from .form_validators import ElisaHivResultFormValidator
 from .form_validators import HeartAttackFormValidator
+from .form_validators import HicEnrollmentFormValidator
 from .form_validators import HivCareAdherenceFormValidator
 from .form_validators import HivHealthCareCostsFormValidator
 from .form_validators import HivLinkageToCareFormValidator

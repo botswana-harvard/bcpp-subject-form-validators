@@ -1,16 +1,20 @@
 from django import forms
 from django.test import TestCase, tag
-
 from edc_constants.constants import MALE, NONE, OTHER
 from edc_registration.models import RegisteredSubject
 
 from ..form_validators import HivRelatedIllnessFormValidator
 from .models import SubjectVisit, ListModel
+from .reference_config_helper import ReferenceConfigHelper
 
 
 class TestValidators(TestCase):
 
+    reference_config_helper = ReferenceConfigHelper()
+
     def setUp(self):
+        self.reference_config_helper.reconfigure(
+            'bcpp_subject_form_validators')
         self.subject_identifier = '12345'
         RegisteredSubject.objects.create(
             subject_identifier=self.subject_identifier,
@@ -57,7 +61,6 @@ class TestValidators(TestCase):
             pass
         self.assertIn('sti_dx_other', form_validator._errors)
 
-    @tag('1')
     def test_m2m_options(self):
         for option in ['wasting', 'diarrhoea', 'yeast_infection', 'pneumonia', 'PCP', 'herpes']:
             with self.subTest(option=option):

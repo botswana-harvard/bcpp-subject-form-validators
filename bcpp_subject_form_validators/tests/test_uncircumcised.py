@@ -1,17 +1,21 @@
 from django import forms
 from django.test import TestCase, tag
-
 from edc_base.modelform_validators import REQUIRED_ERROR
 from edc_constants.constants import MALE, YES
 from edc_registration.models import RegisteredSubject
 
 from ..form_validators import UncircumcisedFormValidator
 from .models import SubjectVisit, ListModel
+from .reference_config_helper import ReferenceConfigHelper
 
 
 class TestUncircumcisedFormValidator(TestCase):
 
+    reference_config_helper = ReferenceConfigHelper()
+
     def setUp(self):
+        self.reference_config_helper.reconfigure(
+            'bcpp_subject_form_validators')
         self.subject_identifier = '12345'
         RegisteredSubject.objects.create(
             subject_identifier=self.subject_identifier,
