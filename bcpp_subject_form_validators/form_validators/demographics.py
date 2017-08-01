@@ -23,36 +23,14 @@ class DemographicsFormValidator(FormValidator):
             subject_visit = self.cleaned_data.get('subject_visit')
             gender = self.registered_subject_model_cls.objects.get(
                 subject_identifier=subject_visit.subject_identifier).gender
-            if gender == FEMALE and self.cleaned_data.get('husband_wives') is not None:
-                raise forms.ValidationError(
-                    {'husband_wives':
-                     'This field is not required for female'})
-            elif gender == MALE and self.cleaned_data.get('num_wives') is not None:
-                raise forms.ValidationError(
-                    {'num_wives':
-                     'This field is not required for male'})
-            elif self.cleaned_data.get('num_wives') is None and gender == FEMALE:
-                raise forms.ValidationError(
-                    {'num_wives':
-                     'Expected a number greater than 0.'})
-            elif self.cleaned_data.get('husband_wives') is None and gender == MALE:
-                raise forms.ValidationError(
-                    {'husband_wives':
-                     'Expected a number greater than 0.'})
-            elif gender == FEMALE and self.cleaned_data.get('num_wives') <= 0:
-                raise forms.ValidationError(
-                    {'num_wives':
-                     'Expected a number greater than 0.'})
-            elif gender == MALE and self.cleaned_data.get('husband_wives') <= 0:
-                raise forms.ValidationError(
-                    {'husband_wives':
-                     'Expected a number greater than 0.'})
-        elif self.cleaned_data.get('marital_status') != MARRIED:
-            if self.cleaned_data.get('num_wives') is not None:
+
+            self.required_if_true(
+                gender == MALE, field_required='husband_wives')
+            self.required_if_true(
+                gender == FEMALE, field_required='num_wives')
+            if self.cleaned_data.get('husband_wives', 0) < 0:
                 raise forms.ValidationError({
-                    'num_wives':
-                    'This field is not required'})
-            elif self.cleaned_data.get('husband_wives') is not None:
+                    'husband_wives': 'Must be greater than 0'})
+            if self.cleaned_data.get('num_wives', 0) < 0:
                 raise forms.ValidationError({
-                    'husband_wives':
-                    'This field is not required'})
+                    'num_wives': 'Must be greater than 0'})
