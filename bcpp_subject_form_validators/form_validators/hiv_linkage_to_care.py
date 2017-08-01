@@ -1,5 +1,6 @@
 from django import forms
 from django.apps import apps as django_apps
+from django.core.exceptions import ObjectDoesNotExist
 from edc_base.modelform_validators import FormValidator
 from edc_constants.constants import YES
 
@@ -14,14 +15,13 @@ class HivLinkageToCareFormValidator(FormValidator):
         try:
             self.hiv_care_adherence_model_cls.objects.get(
                 subject_visit=self.cleaned_data.get('subject_visit'))
-        except self.hiv_care_adherence_model_cls.DoesNotExist:
+        except ObjectDoesNotExist:
             raise forms.ValidationError(
-                'Please complete {} first.'.format(
-                    self.hiv_care_adherence_model_cls._meta.verbose_name))
+                f'Complete {self.hiv_care_adherence_model_cls._meta.verbose_name}.')
 
         self.required_if_true(
-            (self.cleaned_data.get('kept_appt') == 'attended_different_clinic'
-             or self.cleaned_data.get('kept_appt') == 'went_different_clinic'),
+            self.cleaned_data.get('kept_appt') in [
+                'attended_different_clinic', 'went_different_clinic'],
             field_required='different_clinic')
 
         self.required_if(
