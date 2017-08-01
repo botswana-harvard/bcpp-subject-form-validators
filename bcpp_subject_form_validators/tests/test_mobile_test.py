@@ -5,7 +5,6 @@ from django.test import TestCase
 from edc_base.utils import get_utcnow
 from edc_constants.constants import MALE, YES, NO
 from edc_registration.models import RegisteredSubject
-#from mobile_test_validator import MobileTestValidator
  
 from ..form_validators import MobileTestValidator
 from .models import SubjectVisit
