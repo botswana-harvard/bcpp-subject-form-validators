@@ -1,15 +1,11 @@
-from arrow.arrow import Arrow
-from dateutil.relativedelta import relativedelta
 from django import forms
 from django.test import TestCase
 
-from edc_base.modelform_validators import REQUIRED_ERROR, NOT_REQUIRED_ERROR
-from edc_constants.constants import MALE, YES, NO, NOT_APPLICABLE, OTHER, DWTA
+from edc_constants.constants import MALE, YES, NO
 from edc_registration.models import RegisteredSubject
 
 from ..form_validators import EducationFormValidator
-from .models import SubjectVisit, ListModel
-from bcpp_subject_form_validators.tests.models import SubjectLocator
+from .models import SubjectVisit, SubjectLocator
 
 
 class TestValidators(TestCase):
