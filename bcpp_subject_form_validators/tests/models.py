@@ -53,6 +53,9 @@ class CrfModelMixin(models.Model):
     def visit_code(self):
         return self.subject_visit.visit_code
 
+    class Meta:
+        abstract = True
+
 
 class SubjectRequisition(CrfModelMixin, BaseUuidModel):
 
