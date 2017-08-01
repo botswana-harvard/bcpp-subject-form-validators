@@ -8,6 +8,7 @@ from .form_validators import CircumcisionFormValidator
 from .form_validators import CommunityEngagementFormValidator
 from .form_validators import DemographicsFormValidator
 from .form_validators import EducationFormValidator
+from .form_validators import ElisaHivResultFormValidator
 from .form_validators import HeartAttackFormValidator
 from .form_validators import HivCareAdherenceFormValidator
 from .form_validators import HivHealthCareCostsFormValidator

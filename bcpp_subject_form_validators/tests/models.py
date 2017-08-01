@@ -1,9 +1,10 @@
 from django.db import models
+from django.db.models.deletion import PROTECT
 
-from edc_base.model_mixins.base_uuid_model import BaseUuidModel
-from edc_base.utils import get_utcnow
-from edc_base.model_mixins.list_model_mixin import ListModelMixin
 from edc_appointment.models import Appointment
+from edc_base.model_mixins.base_uuid_model import BaseUuidModel
+from edc_base.model_mixins.list_model_mixin import ListModelMixin
+from edc_base.utils import get_utcnow
 
 
 class HouseholdMember(BaseUuidModel):
@@ -42,7 +43,7 @@ class ListModel(ListModelMixin, BaseUuidModel):
 
 class CrfModelMixin(models.Model):
 
-    subject_visit = models.ForeignKey(SubjectVisit)
+    subject_visit = models.OneToOneField(SubjectVisit, on_delete=PROTECT)
 
     @property
     def subject_identifier(self):
@@ -53,6 +54,25 @@ class CrfModelMixin(models.Model):
         return self.subject_visit.visit_code
 
 
+class SubjectRequisition(CrfModelMixin, BaseUuidModel):
+
+    panel_name = models.CharField(max_length=25)
+
+
 class SexualBehaviour(CrfModelMixin, BaseUuidModel):
 
     ever_sex = models.CharField(max_length=25)
+
+
+class ElisaHivResult(CrfModelMixin, BaseUuidModel):
+
+    hiv_result = models.CharField(max_length=25)
+
+
+class HicEnrollment(CrfModelMixin, BaseUuidModel):
+
+    hiv_result = models.CharField(max_length=25)
+
+    def __str__(self):
+        return (f'{self.subject_visit.subject_identifier} '
+                f'{self.subject_visit.report_datetime} {self.subject_visit.visit_code}')

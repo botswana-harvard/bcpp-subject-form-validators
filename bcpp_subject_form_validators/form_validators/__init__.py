@@ -7,6 +7,7 @@ from .circumcision import CircumcisionFormValidator
 from .community_engagement import CommunityEngagementFormValidator
 from .demographics import DemographicsFormValidator
 from .education import EducationFormValidator
+from .elisa_hiv_result import ElisaHivResultFormValidator
 from .heart_attack import HeartAttackFormValidator
 from .hiv_care_adherence import HivCareAdherenceFormValidator
 from .hiv_health_care_costs import HivHealthCareCostsFormValidator
