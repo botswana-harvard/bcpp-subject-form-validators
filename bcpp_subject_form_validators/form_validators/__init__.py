@@ -25,7 +25,7 @@ from .immigration_status import ImmigrationStatusFormValidator
 from .medical_diagnoses import MedicalDiagnosesFormValidator
 from .pima_cd4 import PimaCd4FormValidator
 from .pima_vl import PimaVlFormValidator
-
+from .mobile_test_validator import MobileTestValidator
 from .reproductive_health import ReproductiveHealthFormValidator
 from .resource_utilization import ResourceUtilizationFormValidator
 from .residency_mobility import ResidencyMobilityFormValidator
