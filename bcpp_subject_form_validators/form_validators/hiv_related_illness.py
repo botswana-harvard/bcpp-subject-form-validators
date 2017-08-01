@@ -8,24 +8,24 @@ class HivRelatedIllnessFormValidator(FormValidator):
         self.m2m_single_selection_if(NONE, m2m_field='sti_dx')
         self.m2m_other_specify(
             OTHER, m2m_field='sti_dx', field_other='sti_dx_other')
-        diagnoses = []
-        for diagnosis in self.cleaned_data.get('sti_dx'):
-            diagnoses.append(diagnosis.short_name)
+        sti_dxs = []
+        for sti_dx in self.cleaned_data.get('sti_dx'):
+            sti_dxs.append(sti_dx.short_name)
         self.required_if_true(
-            'wasting' in diagnoses,
+            'wasting' in sti_dxs,
             field_required='wasting_date')
         self.required_if_true(
-            'diarrhoea' in diagnoses,
+            'diarrhoea' in sti_dxs,
             field_required='diarrhoea_date')
         self.required_if_true(
-            'yeast_infection' in diagnoses,
+            'yeast_infection' in sti_dxs,
             field_required='yeast_infection_date')
         self.required_if_true(
-            'pneumonia' in diagnoses,
+            'pneumonia' in sti_dxs,
             field_required='pneumonia_date')
         self.required_if_true(
-            'PCP' in diagnoses,
+            'PCP' in sti_dxs,
             field_required='pcp_date')
         self.required_if_true(
-            'herpes' in diagnoses,
+            'herpes' in sti_dxs,
             field_required='herpes_date')
