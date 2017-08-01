@@ -1,4 +1,5 @@
 from django import forms
+from django.core.exceptions import ValidationError
 from django.test import TestCase
 
 from edc_base.modelform_validators import NOT_REQUIRED_ERROR
@@ -20,11 +21,27 @@ class TestCd4HistoryFormValidator(TestCase):
         self.subject_visit = SubjectVisit.objects.create(
             subject_identifier=self.subject_identifier)
   
-    def test_if_cd4_count_record_available(self):
+    def test_if_last_cd4_count_available(self):
         cleaned_data = dict(
             subject_visit=self.subject_visit,
-            record_available=YES, last_cd4_count=50,
-            last_cd4_drawn_date=get_utcnow())
+            record_available=YES, last_cd4_count=None)
         form_validator = Cd4HistoryFormValidator(
             cleaned_data=cleaned_data)
-        form_validator.validate() 
+        try:
+            form_validator.validate()
+        except ValidationError:
+            pass
+        self.assertIn('last_cd4_count', form_validator._errors) 
+
+    def test_if_last_cd4_drawn_date_required(self):
+        cleaned_data = dict(
+            subject_visit=self.subject_visit,
+            record_available=YES, last_cd4_count=45,
+            last_cd4_drawn_date=None)
+        form_validator = Cd4HistoryFormValidator(
+            cleaned_data=cleaned_data)
+        try:
+            form_validator.validate()
+        except ValidationError:
+            pass
+        self.assertIn('last_cd4_drawn_date', form_validator._errors) 
