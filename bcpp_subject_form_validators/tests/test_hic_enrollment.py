@@ -62,7 +62,6 @@ class TestValidators(StatusHelperTestMixin, TestCase):
             subject_visit=self.subject_visit,
             recorded_hiv_result=NEG)
         status_helper = StatusHelper(visit=self.subject_visit)
-        print(status_helper.final_hiv_status)
 
     def test_ok(self):
         cleaned_data = dict(

@@ -78,7 +78,6 @@ class HicEnrollmentFormValidator(FormValidator):
                     code='missing_elisa_hiv_result')
         status_helper = self.status_helper_cls(
             visit=self.cleaned_data.get('subject_visit'))
-        print(status_helper.final_hiv_status)
         if status_helper.final_hiv_status != NEG:
             raise forms.ValidationError(
                 'Please review \'hiv_result\' in Today\'s Hiv '
