@@ -4,7 +4,7 @@ from django.apps import apps as django_apps
 from edc_base.modelform_validators import FormValidator
 from edc_constants.constants import NEG, POS, IND, DECLINED
 
-from ..constants import NOT_PERFORMED, CAPILLARY
+from ..constants import NOT_PERFORMED, CAPILLARY, MICROTUBE
 
 
 def neg_required_if_hic_enrollment(subject_visit=None, hiv_result=None,
@@ -30,9 +30,9 @@ def neg_required_if_hic_enrollment(subject_visit=None, hiv_result=None,
 
 class HivResultFormValidator(FormValidator):
 
-    hic_enrollment_model = None
-    subject_requisition_model = None
-    microtube_panel_name = None
+    hic_enrollment_model = 'bcpp_subject.hicenrollment'
+    subject_requisition_model = 'bcpp_subject.subjectrequisition'
+    microtube_panel_name = MICROTUBE
 
     def clean(self):
 

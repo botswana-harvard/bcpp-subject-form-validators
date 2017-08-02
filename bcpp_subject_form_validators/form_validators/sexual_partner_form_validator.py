@@ -8,8 +8,8 @@ from ..constants import DAYS, MONTHS, YEARS
 
 class SexualPartnerFormValidator(FormValidator):
 
-    sexual_behaviour_model = None
-    partner_residency_model = None
+    sexual_behaviour_model = 'bcpp_subject.sexualbehaviour'
+    partner_residency_model = 'bcpp_subject.partnerresidency'
 
     def clean(self):
         sexual_behaviour_model_cls = django_apps.get_model(

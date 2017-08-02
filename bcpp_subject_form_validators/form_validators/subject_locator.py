@@ -6,7 +6,7 @@ from edc_constants.constants import YES, NO
 
 class SubjectLocatorFormValidator(FormValidator):
 
-    hic_enrollment_model = None
+    hic_enrollment_model = 'bcpp_subject.hicenrollment'
 
     subject_identifier = forms.CharField(
         label='Subject identifier',

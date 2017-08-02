@@ -8,8 +8,8 @@ from .hiv_result import neg_required_if_hic_enrollment
 
 class ElisaHivResultFormValidator(FormValidator):
 
-    hic_enrollment_model = None
-    subject_requisition_model = None
+    hic_enrollment_model = 'bcpp_subject.hicenrollment'
+    subject_requisition_model = 'bcpp_subject.subjectrequisition'
 
     def clean(self):
         # validating that hiv_result is not changed after HicEnrollment is

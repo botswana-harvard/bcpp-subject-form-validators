@@ -10,7 +10,7 @@ from ..previous_appointment_helper import PreviousAppointmentHelper
 class HivTestReviewFormValidator(FormValidator):
 
     appointment_helper_cls = PreviousAppointmentHelper
-    hiv_testing_history_model = None
+    hiv_testing_history_model = 'bcpp_subject.hivtestinghistory'
 
     def clean(self):
         CompleteModelFirst(

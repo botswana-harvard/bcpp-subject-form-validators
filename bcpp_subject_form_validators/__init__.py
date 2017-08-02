@@ -1,4 +1,4 @@
-from .constants import ALONE, MARRIED, NOT_PERFORMED, CAPILLARY
+from .constants import ALONE, MARRIED, NOT_PERFORMED, CAPILLARY, MICROTUBE
 from .constants import CANCER, HEART_DISEASE, TUBERCULOSIS, STI, ZERO
 from .form_validators import AccessToCareFormValidator, CancerFormValidator
 from .form_validators import Cd4HistoryFormValidator
