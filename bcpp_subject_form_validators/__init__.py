@@ -31,6 +31,8 @@ from .form_validators import ResidencyMobilityFormValidator
 from .form_validators import ResourceUtilizationFormValidator
 from .form_validators import SexualBehaviourFormValidator
 from .form_validators import SexualPartnerFormValidator
+from .form_validators import SubjectReferralFormValidator
+from .form_validators import SubjectRequisitionFormValidator
 from .form_validators import SubjectLocatorFormValidator
 from .form_validators import TuberculosisFormValidator
 from .form_validators import UncircumcisedFormValidator

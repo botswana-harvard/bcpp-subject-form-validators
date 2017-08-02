@@ -24,10 +24,12 @@ class SexualBehaviourFormValidator(FormValidator):
             field_required='last_year_partners',
             optional_if_dwta=True)
 
-        last_year_partners = int(
-            self.cleaned_data.get('last_year_partners', 0))
-        lifetime_sex_partners = int(
-            self.cleaned_data.get('lifetime_sex_partners', 0))
+        last_year_partners = self.cleaned_data.get(
+            'last_year_partners', 0) or 0
+        lifetime_sex_partners = self.cleaned_data.get(
+            'lifetime_sex_partners', 0) or 0
+        last_year_partners = int(last_year_partners)
+        lifetime_sex_partners = int(lifetime_sex_partners)
         if last_year_partners > lifetime_sex_partners:
             raise forms.ValidationError({
                 'last_year_partners':

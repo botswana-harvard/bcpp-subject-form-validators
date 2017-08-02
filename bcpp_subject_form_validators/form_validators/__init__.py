@@ -31,7 +31,8 @@ from .resource_utilization import ResourceUtilizationFormValidator
 from .residency_mobility import ResidencyMobilityFormValidator
 from .sexual_behaviour import SexualBehaviourFormValidator
 from .sexual_partner_form_validator import SexualPartnerFormValidator
-from .subject_requisition_form import SubjectRequisitionFormValidator
+from .subject_referral import SubjectReferralFormValidator
+from .subject_requisition import SubjectRequisitionFormValidator
 from .subject_locator import SubjectLocatorFormValidator
 from .tuberculosis import TuberculosisFormValidator
 from .uncircumcised import UncircumcisedFormValidator
