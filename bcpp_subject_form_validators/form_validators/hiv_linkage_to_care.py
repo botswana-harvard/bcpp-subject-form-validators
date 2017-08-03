@@ -7,7 +7,7 @@ from edc_constants.constants import YES
 
 class HivLinkageToCareFormValidator(FormValidator):
 
-    hiv_care_adherence_model = 'bcpp_subject.hivcareadherence'
+    hiv_care_adherence_model = None
 
     def clean(self):
         self.hiv_care_adherence_model_cls = django_apps.get_model(

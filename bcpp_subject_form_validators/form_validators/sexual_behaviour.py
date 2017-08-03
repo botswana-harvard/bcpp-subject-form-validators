@@ -9,7 +9,7 @@ from ..previous_appointment_helper import PreviousAppointmentHelper
 class SexualBehaviourFormValidator(FormValidator):
 
     appointment_helper_cls = PreviousAppointmentHelper
-    sexual_behaviour_model = 'bcpp_subject.sexualbehaviour'
+    sexual_behaviour_model = None
 
     def clean(self):
         self.not_required_if(

@@ -30,9 +30,9 @@ def neg_required_if_hic_enrollment(subject_visit=None, hiv_result=None,
 
 class HivResultFormValidator(FormValidator):
 
-    hic_enrollment_model = 'bcpp_subject.hicenrollment'
-    subject_requisition_model = 'bcpp_subject.subjectrequisition'
-    microtube_panel_name = MICROTUBE
+    hic_enrollment_model = None
+    subject_requisition_model = None
+    microtube_panel_name = None
 
     def clean(self):
 

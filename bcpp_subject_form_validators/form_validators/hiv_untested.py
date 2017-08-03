@@ -5,7 +5,7 @@ from ..complete_model_first import CompleteModelFirst
 
 class HivUntestedFormValidator(FormValidator):
 
-    hiv_testing_history_model = 'bcpp_subject.hivtestinghistory'
+    hiv_testing_history_model = None
 
     def clean(self):
         CompleteModelFirst(

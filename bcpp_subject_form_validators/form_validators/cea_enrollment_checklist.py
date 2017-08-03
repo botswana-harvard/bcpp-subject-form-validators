@@ -7,8 +7,6 @@ from edc_constants.constants import YES, NO
 class CeaEnrollmentChecklistFormValidator(FormValidator):
 
     def clean(self):
-        # TODO: these are the same as from consent, messages should be the
-        # same of code should be mixed in.
         # If not a citizen, are they legall married to a Botswana citizen
         if (self.cleaned_data.get('citizen') == NO
                 and not self.cleaned_data.get('legal_marriage')):
