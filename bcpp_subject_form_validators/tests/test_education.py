@@ -1,6 +1,7 @@
 from django import forms
 from django.test import TestCase
-
+from edc_base.modelform_validators.base_form_validator import REQUIRED_ERROR,\
+    NOT_REQUIRED_ERROR
 from edc_constants.constants import MALE, YES, NO
 from edc_registration.models import RegisteredSubject
 
@@ -58,6 +59,33 @@ class TestValidators(TestCase):
         except forms.ValidationError:
             pass
         self.assertIn('working', form_validator._errors)
+
+    def test_employed_monthly_income(self):
+        cleaned_data = dict(
+            subject_visit=self.subject_visit,
+            working=YES,
+            job_type='self full-time',
+            job_description='teacher')
+        form_validator = EducationFormValidator(cleaned_data=cleaned_data)
+        try:
+            form_validator.validate()
+        except forms.ValidationError:
+            pass
+        self.assertIn('monthly_income', form_validator._errors)
+
+    def test_employed_monthly_income_ok(self):
+        cleaned_data = dict(
+            subject_visit=self.subject_visit,
+            working=YES,
+            job_type='self full-time',
+            job_description='teacher',
+            monthly_income='More than 10,000 pula')
+        form_validator = EducationFormValidator(cleaned_data=cleaned_data)
+        try:
+            form_validator.validate()
+        except forms.ValidationError:
+            pass
+        self.assertEqual('monthly_income', form_validator._errors)
 
     def test_unemployed(self):
         self.subject_locator.may_call_work = NO
