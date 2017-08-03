@@ -6,7 +6,7 @@ from edc_constants.constants import YES, NO
 
 class EducationFormValidator(FormValidator):
 
-    subject_locator_model = 'bcpp_subject.subjectlocator'
+    subject_locator_model = None
 
     def clean(self):
         self.subject_locator_model_cls = django_apps.get_model(

@@ -12,11 +12,11 @@ from ..complete_model_first import CompleteModelFirst
 class HicEnrollmentFormValidator(FormValidator):
 
     status_helper_cls = StatusHelper
-    subject_consent_model = 'bcpp_subject.subjectconsent'
-    subject_locator_model = 'bcpp_subject.subjectlocator'
-    residency_mobility_model = 'bcpp_subject.residencymobility'
-    hiv_result_model = 'bcpp_subject.hivresult'
-    elisa_hiv_result_model = 'bcpp_subject.elisahivresult'
+    subject_consent_model = None
+    subject_locator_model = None
+    residency_mobility_model = None
+    hiv_result_model = None
+    elisa_hiv_result_model = None
 
     def clean(self):
 

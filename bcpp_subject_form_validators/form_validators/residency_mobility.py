@@ -10,7 +10,7 @@ from ..constants import ZERO
 
 class ResidencyMobilityFormValidator(FormValidator):
 
-    hic_enrollment_model = 'bcpp_subject.hicenrollment'
+    hic_enrollment_model = None
 
     def clean(self):
         # validating that residency status is not changed after capturing
