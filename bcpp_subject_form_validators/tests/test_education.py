@@ -85,7 +85,7 @@ class TestValidators(TestCase):
             form_validator.validate()
         except forms.ValidationError:
             pass
-        self.assertEqual('monthly_income', form_validator._errors)
+        self.assertEqual({}, form_validator._errors)
 
     def test_unemployed(self):
         self.subject_locator.may_call_work = NO
