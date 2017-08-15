@@ -22,7 +22,7 @@ class HivTestReviewFormValidator(FormValidator):
             raise forms.ValidationError({
                 'hiv_test_date': 'Cannot be today\'s date.'})
         elif (hiv_test_date and appt_helper.previous_appointment_rdate
-              and hiv_test_date <= self.appt_helper.previous_appointment_rdate.to(
+              and hiv_test_date <= appt_helper.previous_appointment_rdate.to(
                   settings.TIME_ZONE).date()):
             raise forms.ValidationError({
                 'hiv_test_date':
