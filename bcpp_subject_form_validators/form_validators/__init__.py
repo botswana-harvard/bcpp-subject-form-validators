@@ -9,6 +9,7 @@ from .demographics import DemographicsFormValidator
 from .education import EducationFormValidator
 from .elisa_hiv_result import ElisaHivResultFormValidator
 from .heart_attack import HeartAttackFormValidator
+from .hic_enrollment import HicEnrollmentFormValidator
 from .hiv_care_adherence import HivCareAdherenceFormValidator
 from .hiv_health_care_costs import HivHealthCareCostsFormValidator
 from .hiv_linkage_to_care import HivLinkageToCareFormValidator
@@ -30,7 +31,8 @@ from .resource_utilization import ResourceUtilizationFormValidator
 from .residency_mobility import ResidencyMobilityFormValidator
 from .sexual_behaviour import SexualBehaviourFormValidator
 from .sexual_partner_form_validator import SexualPartnerFormValidator
-from .subject_requisition_form import SubjectRequisitionFormValidator
+from .subject_referral import SubjectReferralFormValidator
+from .subject_requisition import SubjectRequisitionFormValidator
 from .subject_locator import SubjectLocatorFormValidator
 from .tuberculosis import TuberculosisFormValidator
 from .uncircumcised import UncircumcisedFormValidator

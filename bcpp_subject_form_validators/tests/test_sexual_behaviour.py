@@ -1,22 +1,24 @@
+from dateutil.relativedelta import relativedelta
 from django import forms
 from django.test import TestCase, tag
-
+from edc_appointment.models import Appointment
 from edc_base.modelform_validators import NOT_REQUIRED_ERROR, REQUIRED_ERROR
 from edc_base.utils import get_utcnow
 from edc_constants.constants import MALE, NO, YES, NOT_APPLICABLE
 from edc_registration.models import RegisteredSubject
 
-from .models import SubjectVisit, HouseholdMember
 from ..form_validators import SexualBehaviourFormValidator
-from edc_appointment.models import Appointment
-from bcpp_subject_form_validators.tests.models import SexualBehaviour
-from dateutil.relativedelta import relativedelta
-from pprint import pprint
+from .models import SubjectVisit, HouseholdMember, SexualBehaviour
+from .reference_config_helper import ReferenceConfigHelper
 
 
 class TestSexualBehaviourFormValidator(TestCase):
 
+    reference_config_helper = ReferenceConfigHelper()
+
     def setUp(self):
+        self.reference_config_helper.reconfigure(
+            'bcpp_subject_form_validators')
         self.subject_identifier = '12345'
         household_member = HouseholdMember.objects.create(
             subject_identifier=self.subject_identifier,

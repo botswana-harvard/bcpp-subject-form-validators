@@ -2,7 +2,6 @@ from django import forms
 
 from edc_constants.constants import YES, NO, OTHER, NOT_APPLICABLE, DWTA
 from edc_base.modelform_validators.form_validator import FormValidator
-from pprint import pprint
 
 
 class HivCareAdherenceFormValidator(FormValidator):

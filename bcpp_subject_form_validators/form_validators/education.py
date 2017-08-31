@@ -26,13 +26,22 @@ class EducationFormValidator(FormValidator):
                     'the subject locator but now reports to be \'Not Working\'. '
                     'Please correct.'})
 
-        self.required_if(YES, field='working', field_required='job_type')
-        self.required_if(YES, field='working',
-                         field_required='job_description')
-        self.required_if(YES, field='working', field_required='monthly_income')
         self.required_if(
-            NO, field='working', field_required='reason_unemployed')
-        self.required_if('retired', field='reason_unemployed',
-                         field_required='monthly_income')
-        self.required_if('student', field='reason_unemployed',
-                         field_required='monthly_income')
+            YES,
+            field='working',
+            field_required='monthly_income')
+
+        self.required_if(
+            YES,
+            field='working',
+            field_required='job_type')
+
+        self.required_if(
+            YES,
+            field='working',
+            field_required='job_description')
+
+        self.required_if(
+            NO,
+            field='working',
+            field_required='reason_unemployed')

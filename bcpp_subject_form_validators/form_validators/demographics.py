@@ -28,9 +28,11 @@ class DemographicsFormValidator(FormValidator):
                 gender == MALE, field_required='husband_wives')
             self.required_if_true(
                 gender == FEMALE, field_required='num_wives')
-            if self.cleaned_data.get('husband_wives', 0) < 0:
+
+            if gender == MALE and self.cleaned_data.get('husband_wives', 0) < 0:
                 raise forms.ValidationError({
                     'husband_wives': 'Must be greater than 0'})
-            if self.cleaned_data.get('num_wives', 0) < 0:
+
+            if gender == FEMALE and self.cleaned_data.get('num_wives', 0) < 0:
                 raise forms.ValidationError({
                     'num_wives': 'Must be greater than 0'})

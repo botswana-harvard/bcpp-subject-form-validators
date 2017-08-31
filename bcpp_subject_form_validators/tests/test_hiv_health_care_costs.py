@@ -1,16 +1,20 @@
 from django.core.exceptions import ValidationError
 from django.test import TestCase, tag
-
 from edc_constants.constants import NO, MALE, YES
 from edc_registration.models import RegisteredSubject
 
 from ..form_validators import HivHealthCareCostsFormValidator
 from .models import SubjectVisit
+from .reference_config_helper import ReferenceConfigHelper
 
 
 class TestHivHealthCareCostsFormValidator(TestCase):
 
+    reference_config_helper = ReferenceConfigHelper()
+
     def setUp(self):
+        self.reference_config_helper.reconfigure(
+            'bcpp_subject_form_validators')
         self.subject_identifier = '12345'
         RegisteredSubject.objects.create(
             subject_identifier=self.subject_identifier,

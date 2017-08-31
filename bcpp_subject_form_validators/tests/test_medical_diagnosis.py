@@ -1,6 +1,5 @@
 from django import forms
 from django.test import TestCase, tag
-
 from edc_base.modelform_validators import INVALID_ERROR, REQUIRED_ERROR, NOT_REQUIRED_ERROR
 from edc_constants.constants import MALE, NONE, YES
 from edc_registration.models import RegisteredSubject
@@ -8,11 +7,16 @@ from edc_registration.models import RegisteredSubject
 from ..constants import HEART_DISEASE, CANCER, TUBERCULOSIS, STI
 from ..form_validators import MedicalDiagnosesFormValidator
 from .models import SubjectVisit, ListModel
+from .reference_config_helper import ReferenceConfigHelper
 
 
 class TestValidators(TestCase):
 
+    reference_config_helper = ReferenceConfigHelper()
+
     def setUp(self):
+        self.reference_config_helper.reconfigure(
+            'bcpp_subject_form_validators')
         self.subject_identifier = '12345'
         RegisteredSubject.objects.create(
             subject_identifier=self.subject_identifier,

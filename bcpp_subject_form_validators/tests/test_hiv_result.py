@@ -1,19 +1,22 @@
 from django import forms
 from django.test import TestCase, tag
-
-from edc_constants.constants import MALE, POS, NEG, DECLINED, IND,\
-    NOT_APPLICABLE
+from edc_base.utils import get_utcnow
+from edc_constants.constants import MALE, POS, NEG, DECLINED, IND, NOT_APPLICABLE
 from edc_registration.models import RegisteredSubject
 
+from ..constants import NOT_PERFORMED
 from ..form_validators import HivResultFormValidator
 from .models import SubjectVisit, SubjectRequisition, HicEnrollment
-from bcpp_subject_form_validators.constants import NOT_PERFORMED
-from edc_base.utils import get_utcnow
+from .reference_config_helper import ReferenceConfigHelper
 
 
 class TestValidators(TestCase):
 
+    reference_config_helper = ReferenceConfigHelper()
+
     def setUp(self):
+        self.reference_config_helper.reconfigure(
+            'bcpp_subject_form_validators')
         self.subject_identifier = '12345'
         RegisteredSubject.objects.create(
             subject_identifier=self.subject_identifier,

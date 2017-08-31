@@ -1,4 +1,4 @@
-from .constants import ALONE, MARRIED, NOT_PERFORMED, CAPILLARY
+from .constants import ALONE, MARRIED, NOT_PERFORMED, CAPILLARY, MICROTUBE
 from .constants import CANCER, HEART_DISEASE, TUBERCULOSIS, STI, ZERO
 from .form_validators import AccessToCareFormValidator, CancerFormValidator
 from .form_validators import Cd4HistoryFormValidator
@@ -10,6 +10,7 @@ from .form_validators import DemographicsFormValidator
 from .form_validators import EducationFormValidator
 from .form_validators import ElisaHivResultFormValidator
 from .form_validators import HeartAttackFormValidator
+from .form_validators import HicEnrollmentFormValidator
 from .form_validators import HivCareAdherenceFormValidator
 from .form_validators import HivHealthCareCostsFormValidator
 from .form_validators import HivLinkageToCareFormValidator
@@ -30,6 +31,8 @@ from .form_validators import ResidencyMobilityFormValidator
 from .form_validators import ResourceUtilizationFormValidator
 from .form_validators import SexualBehaviourFormValidator
 from .form_validators import SexualPartnerFormValidator
+from .form_validators import SubjectReferralFormValidator
+from .form_validators import SubjectRequisitionFormValidator
 from .form_validators import SubjectLocatorFormValidator
 from .form_validators import TuberculosisFormValidator
 from .form_validators import UncircumcisedFormValidator
