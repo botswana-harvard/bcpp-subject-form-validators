@@ -19,7 +19,6 @@ class HicEnrollmentFormValidator(FormValidator):
     elisa_hiv_result_model = None
 
     def clean(self):
-
         subject_consent = CompleteModelFirst(
             subject_identifier=self.cleaned_data.get(
                 'subject_visit').subject_identifier,

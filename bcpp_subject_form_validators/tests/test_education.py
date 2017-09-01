@@ -1,7 +1,5 @@
 from django import forms
 from django.test import TestCase
-from edc_base.modelform_validators.base_form_validator import REQUIRED_ERROR,\
-    NOT_REQUIRED_ERROR
 from edc_constants.constants import MALE, YES, NO
 from edc_registration.models import RegisteredSubject
 
