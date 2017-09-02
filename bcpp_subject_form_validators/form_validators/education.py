@@ -29,17 +29,17 @@ class EducationFormValidator(FormValidator):
         self.required_if(
             YES,
             field='working',
-            field_required='monthly_income')
-
-        self.required_if(
-            YES,
-            field='working',
             field_required='job_type')
 
         self.required_if(
             YES,
             field='working',
             field_required='job_description')
+
+        self.required_if(
+            YES,
+            field='working',
+            field_required='monthly_income')
 
         self.required_if(
             NO,

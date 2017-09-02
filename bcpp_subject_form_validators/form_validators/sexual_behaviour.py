@@ -18,11 +18,15 @@ class SexualBehaviourFormValidator(FormValidator):
             field_required='lifetime_sex_partners',
             optional_if_dwta=True)
 
-        self.not_required_if(
-            NO, DWTA,
+        self.not_applicable_only_if(
+            DWTA,
             field='ever_sex',
-            field_required='last_year_partners',
-            optional_if_dwta=True)
+            field_required='first_sex')
+
+        self.not_applicable_only_if(
+            NO,
+            field='ever_sex',
+            field_required='first_sex')
 
         last_year_partners = self.cleaned_data.get(
             'last_year_partners', 0) or 0
@@ -37,11 +41,6 @@ class SexualBehaviourFormValidator(FormValidator):
 
         self.required_if_true(
             last_year_partners > 0, field_required='more_sex')
-
-        self.not_required_if(
-            NO, DWTA, field='ever_sex',
-            field_required='first_sex',
-            optional_if_dwta=True)
 
         self.validate_first_sex_age()
 

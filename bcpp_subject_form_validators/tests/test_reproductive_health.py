@@ -1,6 +1,6 @@
 from django.core.exceptions import ValidationError
 from django.test import TestCase, tag
-from edc_constants.constants import MALE, NO, YES, NOT_APPLICABLE
+from edc_constants.constants import MALE, NO, YES, NOT_APPLICABLE, NOT_SURE
 from edc_registration.models import RegisteredSubject
 
 from ..form_validators import ReproductiveHealthFormValidator
@@ -28,6 +28,27 @@ class TestFormValidator(TestCase):
         form_validator = ReproductiveHealthFormValidator(
             cleaned_data=cleaned_data)
         form_validator.validate()
+
+    def test_menopause_and_currently_pregnant(self):
+        cleaned_data = {'menopause': YES,
+                        'currently_pregnant': NOT_SURE}
+        form = ReproductiveHealthFormValidator(cleaned_data=cleaned_data)
+        self.assertRaises(ValidationError, form.validate)
+        self.assertIn('currently_pregnant', form._errors)
+
+    def test_menopause_and_currently_pregnant2(self):
+        cleaned_data = {'menopause': NO,
+                        'currently_pregnant': None}
+        form = ReproductiveHealthFormValidator(cleaned_data=cleaned_data)
+        self.assertRaises(ValidationError, form.validate)
+        self.assertIn('currently_pregnant', form._errors)
+
+    def test_when_pregnant_and_gestational_weeks(self):
+        cleaned_data = {'when_pregnant': YES,
+                        'gestational_weeks': None}
+        form = ReproductiveHealthFormValidator(cleaned_data=cleaned_data)
+        self.assertRaises(ValidationError, form.validate)
+        self.assertIn('gestational_weeks', form._errors)
 
     def test_when_pregnant_no(self):
         cleaned_data = dict(

@@ -36,3 +36,10 @@ class DemographicsFormValidator(FormValidator):
             if gender == FEMALE and self.cleaned_data.get('num_wives', 0) < 0:
                 raise forms.ValidationError({
                     'num_wives': 'Must be greater than 0'})
+        else:
+            if self.cleaned_data.get('num_wives'):
+                raise forms.ValidationError({
+                    'num_wives': 'This field is not required'})
+            if self.cleaned_data.get('husband_wives'):
+                raise forms.ValidationError({
+                    'husband_wives': 'This field is not required'})
