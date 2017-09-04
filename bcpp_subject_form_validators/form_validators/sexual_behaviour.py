@@ -21,12 +21,12 @@ class SexualBehaviourFormValidator(FormValidator):
         self.not_applicable_only_if(
             DWTA,
             field='ever_sex',
-            field_required='first_sex')
+            field_applicable='first_sex')
 
         self.not_applicable_only_if(
             NO,
             field='ever_sex',
-            field_required='first_sex')
+            field_applicable='first_sex')
 
         last_year_partners = self.cleaned_data.get(
             'last_year_partners', 0) or 0
