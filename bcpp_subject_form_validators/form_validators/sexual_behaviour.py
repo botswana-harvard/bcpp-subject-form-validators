@@ -1,3 +1,4 @@
+from decimal import Decimal, InvalidOperation
 from django import forms
 from django.apps import apps as django_apps
 from edc_base.modelform_validators import FormValidator
@@ -32,8 +33,17 @@ class SexualBehaviourFormValidator(FormValidator):
             'last_year_partners', 0) or 0
         lifetime_sex_partners = self.cleaned_data.get(
             'lifetime_sex_partners', 0) or 0
-        last_year_partners = int(last_year_partners)
-        lifetime_sex_partners = int(lifetime_sex_partners)
+        try:
+            last_year_partners = int(Decimal(last_year_partners))
+        except InvalidOperation:
+            raise forms.ValidationError(
+                {'last_year_partners': 'Invalid format'})
+        try:
+            lifetime_sex_partners = int(Decimal(lifetime_sex_partners))
+        except InvalidOperation:
+            raise forms.ValidationError(
+                {'lifetime_sex_partners': 'Invalid format'})
+
         if last_year_partners > lifetime_sex_partners:
             raise forms.ValidationError({
                 'last_year_partners':
