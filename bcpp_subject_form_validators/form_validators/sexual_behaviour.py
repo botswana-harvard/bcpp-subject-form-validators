@@ -68,6 +68,12 @@ class SexualBehaviourFormValidator(FormValidator):
             field_required='condom',
             optional_if_dwta=True)
 
+        self.required_if(
+            YES,
+            field='ever_sex',
+            field_required='last_year_partners',
+            optional_if_dwta=True)
+
         self.not_required_if(
             NO, DWTA, field='ever_sex',
             field_required='alcohol_sex',

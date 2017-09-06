@@ -2,7 +2,7 @@ from dateutil.relativedelta import relativedelta
 from django import forms
 from django.test import TestCase, tag
 from edc_appointment.models import Appointment
-from edc_base.modelform_validators import NOT_REQUIRED_ERROR, REQUIRED_ERROR
+from edc_base.modelform_validators import NOT_REQUIRED_ERROR, REQUIRED_ERROR, NOT_APPLICABLE_ERROR
 from edc_base.utils import get_utcnow
 from edc_constants.constants import MALE, NO, YES, NOT_APPLICABLE
 from edc_registration.models import RegisteredSubject
@@ -53,15 +53,15 @@ class TestSexualBehaviourFormValidator(TestCase):
     def test_ever_sex_no_last_year_partners(self):
         cleaned_data = dict(
             subject_visit=self.subject_visit,
-            ever_sex=NO,
-            last_year_partners=1)
+            ever_sex=YES,
+            last_year_partners=None)
         form_validator = SexualBehaviourFormValidator(
             cleaned_data=cleaned_data)
         try:
             form_validator.validate()
         except forms.ValidationError:
             pass
-        self.assertIn(NOT_REQUIRED_ERROR, form_validator._error_codes)
+        self.assertIn(REQUIRED_ERROR, form_validator._error_codes)
 
     def test_ever_sex_no_first_sex(self):
         cleaned_data = dict(
@@ -74,7 +74,7 @@ class TestSexualBehaviourFormValidator(TestCase):
             form_validator.validate()
         except forms.ValidationError:
             pass
-        self.assertIn(NOT_REQUIRED_ERROR, form_validator._error_codes)
+        self.assertIn(NOT_APPLICABLE_ERROR, form_validator._error_codes)
 
     def test_ever_sex_yes_first_sex_partner_age(self):
         cleaned_data = dict(
