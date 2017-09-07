@@ -121,7 +121,7 @@ class HivCareAdherenceFormValidator(FormValidator):
         self.applicable_if(
             YES, field='on_arv', field_applicable='adherence_4_day')
         self.not_applicable_if(
-            NO, DWTA, field='on_arv', field_applicable='adherence_4_day')
+            NO, DWTA, NOT_APPLICABLE, field='on_arv', field_applicable='adherence_4_day')
 
     def validate_hospitalization_part1(self):
         self.applicable_if(
