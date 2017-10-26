@@ -2,6 +2,7 @@ from .access_to_care import AccessToCareFormValidator
 from .cancer import CancerFormValidator
 from .cd4_history import Cd4HistoryFormValidator
 from .cea_enrollment_checklist import CeaEnrollmentChecklistFormValidator
+from .cea_opd import CeaOpdFormValidator
 from .circumcised import CircumcisedFormValidator
 from .circumcision import CircumcisionFormValidator
 from .community_engagement import CommunityEngagementFormValidator

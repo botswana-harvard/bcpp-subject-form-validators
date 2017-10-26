@@ -3,6 +3,7 @@ from .constants import CANCER, HEART_DISEASE, TUBERCULOSIS, STI, ZERO
 from .form_validators import AccessToCareFormValidator, CancerFormValidator
 from .form_validators import Cd4HistoryFormValidator
 from .form_validators import CeaEnrollmentChecklistFormValidator
+from .form_validators import CeaOpdFormValidator
 from .form_validators import CircumcisedFormValidator
 from .form_validators import CircumcisionFormValidator
 from .form_validators import CommunityEngagementFormValidator
