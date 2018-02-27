@@ -46,25 +46,6 @@ class CeaOpdFormValidator(FormValidator):
         )
 
     def validate_care_costs(self):
-        sum_sort_cares = (
-            self.cleaned_data.get('tb_care') +
-            self.cleaned_data.get('health_related') +
-            self.cleaned_data.get('health_related_none_tb') +
-            self.cleaned_data.get('pregnancy_related') +
-            self.cleaned_data.get('injury_accident') +
-            self.cleaned_data.get('chronic_disease') +
-            self.cleaned_data.get('cancer_care') +
-            self.cleaned_data.get('other_care_count')
-            )
-
-        total_care_sort = self.cleaned_data.get('times_care_obtained')
-
-        if sum_sort_cares != total_care_sort:
-            raise forms.ValidationError({
-                'Total of cares received must be equal to total'
-                'cares declared.'}
-            )
-
         if (self.cleaned_data.get('other_care') and not
            (self.cleaned_data.get('other_care_count'))):
             raise forms.ValidationError({
