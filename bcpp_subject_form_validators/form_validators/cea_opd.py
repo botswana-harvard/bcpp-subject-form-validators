@@ -16,12 +16,6 @@ class CeaOpdFormValidator(FormValidator):
         )
 
         self.required_if(
-            OTHER,
-            field='tests_ordered',
-            field_required='ordered_other',
-        )
-
-        self.required_if(
             YES,
             field='procedures_performed',
             field_required='procedure',
@@ -31,12 +25,6 @@ class CeaOpdFormValidator(FormValidator):
             YES,
             field='medication',
             field_required='medication_prescribed',
-        )
-
-        self.required_if(
-            OTHER,
-            field='medication_prescribed',
-            field_required='prescribed_other',
         )
 
         self.required_if(
