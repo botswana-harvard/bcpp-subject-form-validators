@@ -12,8 +12,8 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 setup(
     name='bcpp-subject-form-validators',
     version='0.1.8',
-    author=u'Erik van Widenfelt',
-    author_email='ew2789@gmail.com',
+    author=u'Software Engineering & Data Management',
+    author_email='se-dmc@bhp.org.bw',
     packages=find_packages(),
     include_package_data=True,
     url='https://github.com/botswana-harvard/bcpp-subject-form-validators',
